@@ -1,0 +1,180 @@
+<div class="home-header">
+  <h1 class="home-title">You're In Da Hood</h1>
+  <form class="logout" action="/logout" method="get">
+      <input type="submit" class="logout btn secondary-btn" method="get" action="/logout" id="logoutbtn" value="Logout">
+  </form>
+  <h2 class="feed">Personal Homepage
+  </h2>  
+</div>
+
+<div class="row home-row">
+
+  {{!-- This is the left column to auto populate the 10 most recent posts for your area --}}
+  <div class="col s4">
+    <h3>Most Recent Top 10 Posts in Your Area</h3>
+    <ul>
+      {{#each stuff}}
+      <li>
+      <span>Title: {{title}}</span>
+      <span style="float:right">In: "{{category}}"</span>
+      <p style="color:white">{{body}}<p>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+
+  {{!-- This the the middle column for searching for other people's posts --}}
+  <div class="col s4">
+    <div>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger float-right" href="#modal2">Search</a>
+      <h3>Search Posts</h3>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal2" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        {{!-- form goes here --}}
+        <div class="input-field col s12">
+          <select>
+            <option value="">Choose your Category</option>
+            <option value="event">Event</option>
+            <option value="free">Free</option>
+            <option value="report">Report (Roadwork, Suspicious Activity, etc)</option>
+            <option value="sale">For Sale/Service Offered</option>
+            <option value="missed">Missed Connections</option>
+          </select>
+          <label>Category Select</label>
+        </div>
+
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <label for="textarea1">Zipcode To Search</label>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <label for="textarea1">Keywords (Optional)</label>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+      </div>
+    </div>
+  </div>
+
+  {{!-- This is the right column that will include the modal for posting your own content and all your own posts --}}
+  <div class="col s4">
+    <div>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger float-right" href="#modal1">New Post</a>
+      <h3>Your Posts</h3>
+    </div>
+   
+    <ul>
+      {{#each stuff}}
+      <li>
+      <span>Title: {{title}}</span>
+      <span style="float:right">In: "{{category}}"</span>
+      <p style="color:white">{{body}}<p>
+      <form method="post" action="/api/post/delete/{{id}}">
+      <input type="submit" id="deletebtn" class="btn btn-sm" value="Remove">
+      </form>
+      <a href="#modal3" class="modal-trigger btn btn-small" value={{id}} id="editbtn">Edit</a>
+      <hr>
+      {{/each}}
+    </ul>
+  </div>
+    
+
+    <!-- Create Post Modal Structure -->
+    <div id="modal1" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <form class="col s12" id="userPost" method="post" action="/api/post">{{!-- form goes here --}}
+          <div class="input-field col s12">
+            <select name="category">
+              <option value="">Choose your Category</option>
+              <option value="Event">Event</option>
+              <option value="Free">Free</option>
+              <option value="Report">Report</option>
+              <option value="Sale">For Sale/Service Offered</option>
+              <option value="Missed">Missed Connections</option>
+            </select>
+            <label>Category Select</label>
+          </div>
+          {{!-- <div class="row">
+            <div class="row"> --}}
+              <div class="input-field col s12">
+                <label for="textarea1">Title</label>
+                <input name="title" type="text" id="textarea1" class="materialize-input">
+              </div>
+            {{!-- </div>
+          </div> --}}
+          {{!-- <div class="row">
+            <div class="row"> --}}
+              <div class="input-field col s12">
+                <textarea type="text" name="body" id="textarea1" class="materialize-input"></textarea>
+                <label for="textarea1">Add details about your post</label>
+              </div>
+            {{!-- </div>
+          </div> --}}
+          <div class="modal-footer">
+            <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Modal Structure -->
+    <div id="modal3" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <form class="col s12" method="put" action="/api/post/edit/{{id}}">
+          <div class="input-field col s12">
+            <select name="category">
+              <option value="">Choose your Category</option>
+              <option value="Event">Event</option>
+              <option value="Free">Free</option>
+              <option value="Report">Report</option>
+              <option value="Sale">For Sale/Service Offered</option>
+              <option value="Missed">Missed Connections</option>
+            </select>
+            <label>Category Select</label>
+          </div>
+          {{!-- <div class="row">
+            <div class="row"> --}}
+              <div class="input-field col s12">
+                <label for="textarea1">Title</label>
+                <input name="title" type="text" id="textarea1" class="materialize-input">
+              </div>
+            {{!-- </div>
+          </div> --}}
+          {{!-- <div class="row">
+            <div class="row"> --}}
+              <div class="input-field col s12">
+                <textarea type="text" name="body" id="textarea1" class="materialize-input"></textarea>
+                <label for="textarea1">Add details about your post</label>
+              </div>
+            {{!-- </div>
+          </div> --}}
+          <div class="modal-footer">
+            <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
